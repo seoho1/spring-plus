@@ -1,6 +1,8 @@
 package org.example.expert.domain.todo.controller;
 
 import jakarta.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
@@ -37,5 +39,17 @@ public class TodoController {
     @GetMapping("/todos/{todoId}")
     public ResponseEntity<TodoResponse> getTodo(@PathVariable long todoId) {
         return ResponseEntity.ok(todoService.getTodo(todoId));
+    }
+
+    @GetMapping("/todos/search")
+    public ResponseEntity<List<TodoResponse>> getTodoByWeatherAndModifiedAt(
+            @RequestParam(required = false) String weather,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate){
+
+        List<TodoResponse> todos = todoService.getTodoByWeatherAndModifiedAt(
+                weather, startDate, endDate);
+
+        return ResponseEntity.ok(todos);
     }
 }
